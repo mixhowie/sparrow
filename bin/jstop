@@ -1,0 +1,8 @@
+#!/bin/env sh
+
+PID_FILE=./run.pid
+if test -f $PID_FILE; then
+    kill $(cat $PID_FILE) && rm -f $PID_FILE
+else
+    echo "Can not find the pid file: run.pid"
+fi
