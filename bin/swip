@@ -1,0 +1,9 @@
+#!/bin/env sh
+
+echo "Private IP:"
+ifconfig |grep inet |sort -n
+
+echo ""
+
+echo "Public IP:"
+echo -e "\t$(curl -s http://myip.ipip.net)"
