@@ -1,8 +1,80 @@
-#!/bin/env sh
+#!/usr/bin/env python3
+import os
+import sys
 
-if [ "$#" -ne 1 ]; then
-    echo "Illegal number of parameters"
-    exit 1
-fi
 
-nohup java -server -jar $1 >> start.log 2>&1 & echo $! > run.pid
+class TermColor:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+    @classmethod
+    def header(cls, text: str) -> str:
+        return cls.__round(text, cls.HEADER)
+
+    @classmethod
+    def ok_blue(cls, text: str) -> str:
+        return cls.__round(text, cls.OKBLUE)
+
+    @classmethod
+    def ok_green(cls, text: str) -> str:
+        return cls.__round(text, cls.OKGREEN)
+
+    @classmethod
+    def warning(cls, text: str) -> str:
+        return cls.__round(text, cls.WARNING)
+
+    @classmethod
+    def fail(cls, text: str) -> str:
+        return cls.__round(text, cls.FAIL)
+
+    @classmethod
+    def bold(cls, text: str) -> str:
+        return cls.__round(text, cls.BOLD)
+
+    @classmethod
+    def underline(cls, text: str) -> str:
+        return cls.__round(text, cls.UNDERLINE)
+
+    @classmethod
+    def __round(cls, text: str, color: str) -> str:
+        return f'{color}{text}{cls.ENDC}'
+
+
+SW_CONF = 'sw.conf'
+JVM_OPTIONS = 'jstart.jvm.options'
+RUN_FILE = 'run.file'
+RUN_PARAMS = 'run.params'
+
+if __name__ == '__main__':
+    conf = {
+        JVM_OPTIONS: '',
+        RUN_FILE: '',
+        RUN_PARAMS: '',
+    }
+    if os.path.exists(SW_CONF):
+        for line in open(SW_CONF).readlines():
+            spline = line.split('=')
+            conf[spline[0].strip()] = '='.join(spline[1:]).strip()
+
+    if len(sys.argv) > 1:
+        conf[RUN_FILE] = sys.argv[1]
+
+    if not conf[RUN_FILE]:
+        raise Exception('run.file not configure')
+
+    command = f"nohup java %s -jar %s %s > run.log 2>&1 & echo $! > run.pid" % (
+        conf[JVM_OPTIONS],
+        conf[RUN_FILE],
+        conf[RUN_PARAMS],
+    )
+    print(TermColor.bold(command))
+
+    os.system(command)
+
+    print(f'{conf[RUN_FILE]} is {TermColor.ok_green("running")}')

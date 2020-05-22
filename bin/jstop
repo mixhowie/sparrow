@@ -1,8 +1,60 @@
-#!/bin/env sh
+#!/usr/bin/env python3
+import os
 
-PID_FILE=./run.pid
-if test -f $PID_FILE; then
-    kill $(cat $PID_FILE) && rm -f $PID_FILE
-else
-    echo "Can not find the pid file: run.pid"
-fi
+
+class TermColor:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+    @classmethod
+    def header(cls, text: str) -> str:
+        return cls.__round(text, cls.HEADER)
+
+    @classmethod
+    def ok_blue(cls, text: str) -> str:
+        return cls.__round(text, cls.OKBLUE)
+
+    @classmethod
+    def ok_green(cls, text: str) -> str:
+        return cls.__round(text, cls.OKGREEN)
+
+    @classmethod
+    def warning(cls, text: str) -> str:
+        return cls.__round(text, cls.WARNING)
+
+    @classmethod
+    def fail(cls, text: str) -> str:
+        return cls.__round(text, cls.FAIL)
+
+    @classmethod
+    def bold(cls, text: str) -> str:
+        return cls.__round(text, cls.BOLD)
+
+    @classmethod
+    def underline(cls, text: str) -> str:
+        return cls.__round(text, cls.UNDERLINE)
+
+    @classmethod
+    def __round(cls, text: str, color: str) -> str:
+        return f'{color}{text}{cls.ENDC}'
+
+
+PID_FILE = 'run.pid'
+if __name__ == '__main__':
+    if not os.path.exists(PID_FILE):
+        raise FileNotFoundError(PID_FILE)
+
+    pid = open(PID_FILE).read().strip()
+    command = f'kill {pid} && rm -f {PID_FILE}'
+
+    print(TermColor.bold(command))
+
+    os.system(command)
+
+    print(f'process {pid} is {TermColor.ok_green("stopped")}')
