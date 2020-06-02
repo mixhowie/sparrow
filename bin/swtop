@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+top -d 1 -o RES -c
