@@ -31,10 +31,17 @@ subprojects {
         implementation("ch.qos.logback:logback-core:1.2.3")
         implementation("ch.qos.logback:logback-classic:1.2.3")
 
+        // sshd
+        implementation("org.apache.sshd:sshd-core:2.4.0")
+
         // other
+        implementation("commons-cli:commons-cli:1.4")
         implementation("joda-time:joda-time:2.10.6")
         implementation("org.apache.httpcomponents:httpclient:4.5.12")
         implementation("com.cronutils:cron-utils:9.0.1")
+
+        // test
+        testImplementation("junit", "junit", "4.12")
     }
 
     tasks {

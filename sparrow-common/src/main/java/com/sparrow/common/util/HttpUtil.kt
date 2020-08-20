@@ -1,4 +1,4 @@
-package com.sparrow.common.utils
+package com.sparrow.common.util
 
 import org.apache.http.*
 import org.apache.http.client.config.*

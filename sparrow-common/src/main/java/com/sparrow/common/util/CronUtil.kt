@@ -1,4 +1,4 @@
-package com.sparrow.common.utils
+package com.sparrow.common.util
 
 import com.cronutils.model.*
 import com.cronutils.model.definition.*
