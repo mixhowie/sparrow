@@ -21,10 +21,12 @@ object SshConnection {
         if (this.connected)
             error("ssh connected")
 
-        this.client = SshClient.setUpDefaultClient().also { it.start() }
+        this.client = SshClient.setUpDefaultClient().also {
+            it.start()
+        }
 
-        this.conn = this.client.connect(account.user, account.host, account.port)
-        this.conn.await()
+        this.conn = this.client.connect(account.user, account.host, account.port).verify()
+//        this.conn.session.setSessionHeartbeat(SessionHeartbeatController.HeartbeatType.IGNORE, TimeUnit.MILLISECONDS, 1000)
 
         this.session = this.conn.session.also {
             it.addPasswordIdentity(account.passwd)
@@ -44,21 +46,13 @@ object SshConnection {
                 }
             }
 
-            it.auth().await()
+            it.auth().verify()
         }
 
         this.connected = true
 
-        if (account.keepalive) {
-            val channel = session.createShellChannel()
-            channel.out = System.out
-            channel.open().await()
-            timer(period = 1000) {
-                if (connected) {
-                    channel.invertedIn.write(0)
-                    channel.invertedIn.flush()
-                }
-            }
+        timer(period = 1000 * 60) {
+            session.createExecChannel("ls").open()
         }
 
         Runtime.getRuntime().addShutdownHook(thread(false) {
