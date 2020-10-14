@@ -24,11 +24,13 @@ object SshCommand {
                 user = accountJson["user"].asText(),
                 passwd = accountJson["passwd"].asText(),
                 keepalive = accountJson["keepalive"].asBoolean(),
+                remark = accountJson["remark"].asText(),
                 tunnels = accountJson["tunnels"]?.map { tunnelJson ->
                     SshAccount.Tunnel(
                         type = tunnelJson["type"].asText(),
                         local = tunnelJson["local"].asText(),
-                        remote = tunnelJson["remote"].asText()
+                        remote = tunnelJson["remote"].asText(),
+                        remark = tunnelJson["remark"].asText()
                     )
                 } ?: listOf()
             )

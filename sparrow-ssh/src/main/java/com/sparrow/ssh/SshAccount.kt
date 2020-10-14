@@ -7,11 +7,13 @@ data class SshAccount(
     val user: String,
     val passwd: String,
     val keepalive: Boolean,
+    val remark: String,
     val tunnels: List<Tunnel>
 ) {
     data class Tunnel(
         val type: String,
         val local: String,
-        val remote: String
+        val remote: String,
+        val remark: String
     )
 }

@@ -32,7 +32,7 @@ subprojects {
         implementation("ch.qos.logback:logback-classic:1.2.3")
 
         // sshd
-        implementation("org.apache.sshd:sshd-core:2.4.0")
+        implementation("com.jcraft:jsch:0.1.55")
 
         // other
         implementation("commons-cli:commons-cli:1.4")
