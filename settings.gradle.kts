@@ -3,6 +3,7 @@ rootProject.name = "sparrow"
 include("sparrow-common")
 include("sparrow-main")
 include("sparrow-ssh")
+include("sparrow-http-monitor")
 
 pluginManagement {
     apply(from = "$rootDir/config.gradle.kts")

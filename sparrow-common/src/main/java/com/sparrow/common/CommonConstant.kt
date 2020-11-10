@@ -6,9 +6,6 @@ import com.fasterxml.jackson.databind.*
 import com.fasterxml.jackson.module.kotlin.*
 import java.text.*
 
-/**
- * 通用常量
- */
 object CommonConstant {
     const val DAY_FORMAT_PATTERN = "yyyyMMdd"
     const val DATE_FORMAT_PATTERN = "yyyy-MM-dd"

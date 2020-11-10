@@ -1,13 +1,14 @@
 package com.sparrow.main
 
 import com.sparrow.common.*
+import com.sparrow.hm.*
 import com.sparrow.ssh.*
 import org.apache.commons.cli.*
 import org.slf4j.*
 
-class Main {
+class Application {
     companion object {
-        private val logger = LoggerFactory.getLogger(Main::class.java)
+        private val logger = LoggerFactory.getLogger(Application::class.java)
 
         private val options = Options().also {
             it.addOption(Option
@@ -28,6 +29,12 @@ class Main {
                 .desc("connect the remote ssh by name")
                 .build())
             it.addOption(Option
+                .builder("hm")
+                .longOpt("http-monitor")
+                .hasArg(false)
+                .desc("service monitor by http")
+                .build())
+            it.addOption(Option
                 .builder("n")
                 .longOpt("name")
                 .hasArg()
@@ -39,7 +46,6 @@ class Main {
         @JvmStatic
         fun main(args: Array<String>) {
             logger.info(args.contentToString())
-            logger.info(SwConf.ROOT.toString())
 
             try {
                 val cmd = DefaultParser().parse(options, args)
@@ -47,6 +53,7 @@ class Main {
                 when {
                     cmd.hasOption("sl") -> SshCommand.list()
                     cmd.hasOption("sc") -> SshCommand.connect(cmd.getOptionValue("n"))
+                    cmd.hasOption("hm") -> HttpMonitor.run(cmd.args)
                     else -> this.printHelp()
                 }
             } catch (e: Exception) {

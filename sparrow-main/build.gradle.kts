@@ -6,6 +6,7 @@ plugins {
 
 dependencies {
     implementation(project(":sparrow-ssh"))
+    implementation(project(":sparrow-http-monitor"))
 }
 
 tasks {
@@ -15,7 +16,7 @@ tasks {
 
     shadowJar {
         manifest {
-            attributes["Main-Class"] = "com.sparrow.main.Main"
+            attributes["Main-Class"] = "com.sparrow.main.Application"
         }
     }
 }

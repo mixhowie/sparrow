@@ -34,6 +34,9 @@ subprojects {
         // sshd
         implementation("com.jcraft:jsch:0.1.55")
 
+        // mail
+        implementation("org.simplejavamail:simple-java-mail:6.4.4")
+
         // other
         implementation("commons-cli:commons-cli:1.4")
         implementation("joda-time:joda-time:2.10.6")
